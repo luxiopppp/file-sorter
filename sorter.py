@@ -21,6 +21,7 @@ def sort():
     GIF_COUNT = 0
     DOC_COUNT = 0
     PDF_COUNT = 0
+    DEL_COUNT = 0
 
     for file in dirs:
         # print(file)
@@ -37,13 +38,18 @@ def sort():
             AUD_COUNT += 1
         if ext in [".gif"]:
             os.rename(f"{root_path}\\{file}", f"{root_path}/.gifs/{file}")
-            AUD_COUNT += 1
+            GIF_COUNT += 1
         if ext in [".doc", ".docx"]:
             os.rename(f"{root_path}\\{file}", f"{root_path}/.docs/{file}")
             DOC_COUNT += 1
         if ext in [".pdf"]:
             os.rename(f"{root_path}\\{file}", f"{root_path}/.docs/.pdfs/{file}")
             PDF_COUNT += 1
+
+    for root, dire, files in os.walk(root_path, topdown=False):
+        if not os.listdir(root):
+            os.rmdir(root)
+            DEL_COUNT += 1
 
     print(
         f"""
@@ -53,6 +59,7 @@ def sort():
             Cantidad de gif: {GIF_COUNT}
             Cantidad de documentos: {DOC_COUNT}
             Cantidad de pdf: {PDF_COUNT}
+            Carpetas eliminadas: {DEL_COUNT}
         """
     )
 
