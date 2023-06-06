@@ -3,6 +3,8 @@ import os
 root_path = input("Directorio a organizar: ")
 dirs = os.listdir(root_path)
 
+delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
+
 
 def sort():
     try:
@@ -46,10 +48,11 @@ def sort():
             os.rename(f"{root_path}\\{file}", f"{root_path}/.docs/.pdfs/{file}")
             PDF_COUNT += 1
 
-    for root, dire, files in os.walk(root_path, topdown=False):
-        if not os.listdir(root):
-            os.rmdir(root)
-            DEL_COUNT += 1
+    if delete == "Y":
+        for root, dire, files in os.walk(root_path, topdown=False):
+            if not os.listdir(root):
+                os.rmdir(root)
+                DEL_COUNT += 1
 
     print(
         f"""
