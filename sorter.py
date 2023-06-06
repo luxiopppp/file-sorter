@@ -3,19 +3,37 @@ import os
 root_path = input("Directorio a organizar: ")
 dirs = os.listdir(root_path)
 
+print("Si no desea alguna carpeta, solo presione enter.")
+pic_folder = input("Nombre para la carpeta de imagenes: ")
+vid_folder = input("Nombre para la carpeta de videos: ")
+aud_folder = input("Nombre para la carpeta de audios: ")
+gif_folder = input("Nombre para la carpeta de gifs: ")
+doc_folder = input("Nombre para la carpeta de documentos: ")
+pdf_folder = input("Nombre para la carpeta de pdf: ")
+
 delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
 
 
-def sort():
+def create_folders():
     try:
-        os.mkdir(f"{root_path}/.pics/")
-        os.mkdir(f"{root_path}/.vids/")
-        os.mkdir(f"{root_path}/.auds/")
-        os.mkdir(f"{root_path}/.gifs/")
-        os.mkdir(f"{root_path}/.docs/")
-        os.mkdir(f"{root_path}/.docs/.pdfs")
+        if pic_folder != "":
+            os.mkdir(f"{root_path}/{pic_folder}/")
+        if vid_folder != "":
+            os.mkdir(f"{root_path}/{vid_folder}/")
+        if aud_folder != "":
+            os.mkdir(f"{root_path}/{aud_folder}/")
+        if gif_folder != "":
+            os.mkdir(f"{root_path}/{gif_folder}/")
+        if doc_folder != "":
+            os.mkdir(f"{root_path}/{doc_folder}/")
+        if pdf_folder != "":
+            os.mkdir(f"{root_path}/{pdf_folder}/")
     except OSError:
         print("Carpeta ya existente")
+
+
+def sort():
+    create_folders()
 
     PIC_COUNT = 0
     VID_COUNT = 0
@@ -30,22 +48,22 @@ def sort():
         name, ext = os.path.splitext(root_path + file)
 
         if ext in [".jpg", ".jpeg", ".png", ".psd", ".webp"]:
-            os.rename(f"{root_path}\\{file}", f"{root_path}/.pics/{file}")
+            os.rename(f"{root_path}\\{file}", f"{root_path}/{pic_folder}/{file}")
             PIC_COUNT += 1
         if ext in [".mp4", ".mpeg", ".webm", ".avi", ".mov"]:
-            os.rename(f"{root_path}\\{file}", f"{root_path}/.vids/{file}")
+            os.rename(f"{root_path}\\{file}", f"{root_path}/{vid_folder}/{file}")
             VID_COUNT += 1
         if ext in [".mp3", ".wav", ".asd", ".m4a", ".ogg"]:
-            os.rename(f"{root_path}\\{file}", f"{root_path}/.auds/{file}")
+            os.rename(f"{root_path}\\{file}", f"{root_path}/{aud_folder}/{file}")
             AUD_COUNT += 1
         if ext in [".gif"]:
-            os.rename(f"{root_path}\\{file}", f"{root_path}/.gifs/{file}")
+            os.rename(f"{root_path}\\{file}", f"{root_path}/{gif_folder}/{file}")
             GIF_COUNT += 1
         if ext in [".doc", ".docx"]:
-            os.rename(f"{root_path}\\{file}", f"{root_path}/.docs/{file}")
+            os.rename(f"{root_path}\\{file}", f"{root_path}/{doc_folder}/{file}")
             DOC_COUNT += 1
         if ext in [".pdf"]:
-            os.rename(f"{root_path}\\{file}", f"{root_path}/.docs/.pdfs/{file}")
+            os.rename(f"{root_path}\\{file}", f"{root_path}/{pdf_folder}/{file}")
             PDF_COUNT += 1
 
     if delete == "Y":
