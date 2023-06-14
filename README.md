@@ -7,8 +7,10 @@
 Simplemente organiza el directorio proporcionado en carpetas por tipo de archivo
 
 ## Pre-Requisitos📋
-Solamente es necesario tener python instalado
-
+<p>
+  Solamente es necesario tener python instalado <br><br>
+  Puedes descargarlo desde su página oficial <a href= "https://www.python.org/downloads"/>aquí</a>
+</p>
 
 ## Funcionalidades del proyecto:hammer:
 
