@@ -12,7 +12,6 @@ doc_folder = input("Nombre para la carpeta de documentos: ")
 zip_folder = input("Nombre para la carpeta de archivos comprimidos: ")
 set_folder = input("Nombre para la carpeta de instaladores: ")
 pro_folder = input("Nombre para la carpeta de programas (ej: .py): ")
-des_folder = input("Nombre para la carpeta de diseño (ej: .psd): ")
 
 delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
 
@@ -27,8 +26,7 @@ extentions = {
     "documents": [".pdf", ".docx", ".csv", ".xlsx", ".pptx", ".doc", ".ppt", ".xls"],
     "zip": [".zip", ".tgz", ".rar", ".tar"],
     "setup": [".msi", ".exe"],
-    "programs": [".py", ".c", ".cpp", ".php", ".C", ".CPP"],
-    "design": [".xd", ".psd"]
+    "programs": [".py", ".c", ".cpp", ".php", ".C", ".CPP"]
 }
 
 
@@ -67,10 +65,7 @@ def create_folders():
             os.mkdir(f"{root_path}/{pro_folder}/")
             extentions[pro_folder] = extentions["programs"]
             del extentions["programs"]
-        if des_folder != "":
-            os.mkdir(f"{root_path}/{des_folder}/")
-            extentions[des_folder] = extentions["design"]
-            del extentions["design"]
+        os.mkdir(f"{root_path}/other")
     except OSError:
         print("Ha aparecido un error al crear las carpetas, revisa el directorio para asegurarte que haya espacio")
 
@@ -87,13 +82,29 @@ def sort(file):
                 return key
 
 
-for file in dirs:
-    name, ext = os.path.splitext(root_path + file)
-    dist = sort(file)
-    if dist:
-        count += 1
-        os.rename(f"{root_path}/{file}",
-                  f"{root_path}/{dist}/{file}")
+def sorting():
+    global count
+    count = 0
+
+    for file in dirs:
+        name, ext = os.path.splitext(root_path + file)
+        dist = sort(file)
+        if dist:
+            count += 1
+            try:
+                os.rename(f"{root_path}/{file}",
+                          f"{root_path}/{dist}/{file}")
+            except:
+                print(file + " error")
+        else:
+            try:
+                os.rename(f"{root_path}/{file}",
+                          f"{root_path}/{dist}/other")
+            except:
+                print(file + " error")
+
+
+sorting()
 
 if delete == "Y":
     for root, dire, files in os.walk(root_path, topdown=False):
