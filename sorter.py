@@ -52,11 +52,12 @@ def create_folders():
 
         for folder, ext in folder_list.items():
             if folder != "":
-                os.mkdir(f"{root_path}/{folder}/")
+                folder_path = os.path.join(root_path, folder)
+                os.makedirs(folder_path, exist_ok=True)
                 extentions[folder] = extentions[ext]
                 del extentions[ext]
     except OSError:
-        print("Ha aparecido un error al crear las carpetas, revisa el directorio para asegurarte que haya espacio")
+        print("Ha aparecido un error al crear las carpetas, revise el directorio")
 
 
 create_folders()
