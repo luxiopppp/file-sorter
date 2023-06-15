@@ -1,9 +1,14 @@
 import os
+import msvcrt
 
 root_path = input("Directorio a organizar: ")
 dirs = os.listdir(root_path)
 
-print("Si no desea alguna carpeta, solo presione enter.")
+print("""
+        Si no desea alguna carpeta, solo presione enter.
+        Si ya existe una carpeta para alguno de estos archivos, proporcione el nombre de esa carpeta.
+    """
+      )
 pic_folder = input("Nombre para la carpeta de imagenes: ")
 vid_folder = input("Nombre para la carpeta de videos: ")
 aud_folder = input("Nombre para la carpeta de audios: ")
@@ -32,39 +37,24 @@ extentions = {
 def create_folders():
 
     try:
-        if pic_folder != "":
-            os.mkdir(f"{root_path}/{pic_folder}/")
-            extentions[pic_folder] = extentions["images"]
-            del extentions["images"]
-        if vid_folder != "":
-            os.mkdir(f"{root_path}/{vid_folder}/")
-            extentions[vid_folder] = extentions["videos"]
-            del extentions["videos"]
-        if aud_folder != "":
-            os.mkdir(f"{root_path}/{aud_folder}/")
-            extentions[aud_folder] = extentions["audios"]
-            del extentions["audios"]
-        if gif_folder != "":
-            os.mkdir(f"{root_path}/{gif_folder}/")
-            extentions[gif_folder] = extentions["gifs"]
-            del extentions["gifs"]
-        if doc_folder != "":
-            os.mkdir(f"{root_path}/{doc_folder}/")
-            extentions[doc_folder] = extentions["documents"]
-            del extentions["documents"]
-        if zip_folder != "":
-            os.mkdir(f"{root_path}/{zip_folder}/")
-            extentions[zip_folder] = extentions["zip"]
-            del extentions["zip"]
-        if set_folder != "":
-            os.mkdir(f"{root_path}/{set_folder}/")
-            extentions[set_folder] = extentions["setup"]
-            del extentions["setup"]
-        if pro_folder != "":
-            os.mkdir(f"{root_path}/{pro_folder}/")
-            extentions[pro_folder] = extentions["programs"]
-            del extentions["programs"]
-        os.mkdir(f"{root_path}/other")
+        folder_list = {
+            pic_folder: "images",
+            vid_folder: "videos",
+            aud_folder: "audios",
+            gif_folder: "gifs",
+            doc_folder: "documents",
+            zip_folder: "zip",
+            set_folder: "setup",
+            pro_folder: "programs"
+        }
+        if all(folder == "" for folder in list(folder_list.keys())):
+            print("Debe crear al menos una carpeta")
+
+        for folder, ext in folder_list.items():
+            if folder != "":
+                os.mkdir(f"{root_path}/{folder}/")
+                extentions[folder] = extentions[ext]
+                del extentions[ext]
     except OSError:
         print("Ha aparecido un error al crear las carpetas, revisa el directorio para asegurarte que haya espacio")
 
@@ -82,26 +72,19 @@ def sort(file):
 
 
 def sorting():
-    global count
+    global count, no_ord
     count = 0
+    no_ord = 0
 
     for file in dirs:
         name, ext = os.path.splitext(root_path + file)
         dist = sort(file)
         if dist:
             try:
-                os.rename(f"{root_path}/{file}",
-                          f"{root_path}/{dist}/{file}")
+                os.rename(f"{root_path}/{file}", f"{root_path}/{dist}/{file}")
                 count += 1
             except:
-                print(file + " error")
-        else:
-            try:
-                os.rename(f"{root_path}/{file}",
-                          f"{root_path}/{dist}/other")
-                count += 1
-            except:
-                print(file + " error")
+                no_ord += 1
 
 
 sorting()
@@ -115,6 +98,9 @@ if delete == "Y":
 print(
     f"""
         Archivos organizados: {count}
+        Archivos sin organizar: {no_ord}
         Carpetas eliminadas: {del_COUNT}
     """
 )
+
+msvcrt.getch()
