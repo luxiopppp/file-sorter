@@ -15,7 +15,6 @@ pro_folder = input("Nombre para la carpeta de programas (ej: .py): ")
 
 delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
 
-count = 0
 del_COUNT = 0
 
 extentions = {
@@ -90,16 +89,17 @@ def sorting():
         name, ext = os.path.splitext(root_path + file)
         dist = sort(file)
         if dist:
-            count += 1
             try:
                 os.rename(f"{root_path}/{file}",
                           f"{root_path}/{dist}/{file}")
+                count += 1
             except:
                 print(file + " error")
         else:
             try:
                 os.rename(f"{root_path}/{file}",
                           f"{root_path}/{dist}/other")
+                count += 1
             except:
                 print(file + " error")
 
