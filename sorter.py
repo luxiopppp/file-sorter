@@ -9,20 +9,30 @@ print("""
         Si ya existe una carpeta para alguno de estos archivos, proporcione el nombre de esa carpeta.
     """
       )
-pic_folder = input("Nombre para la carpeta de imagenes: ")
-vid_folder = input("Nombre para la carpeta de videos: ")
-aud_folder = input("Nombre para la carpeta de audios: ")
-gif_folder = input("Nombre para la carpeta de gifs: ")
-doc_folder = input("Nombre para la carpeta de documentos: ")
-zip_folder = input("Nombre para la carpeta de archivos comprimidos: ")
-set_folder = input("Nombre para la carpeta de instaladores: ")
-pro_folder = input("Nombre para la carpeta de programas (ej: .py): ")
+
+folder_names = [
+    "images",
+    "videos",
+    "audios",
+    "gifs",
+    "documents",
+    "zip",
+    "setup",
+    "programs"
+]
+
+folder_list = {}
+
+for name in folder_names:
+    folder = input(f"Nombre para la carpeta de {name}: ")
+    if folder:
+        folder_list[name] = folder
 
 delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
 
 del_COUNT = 0
 
-extentions = {
+extensions = {
     "images": [".jpg", ".jpeg", ".png", ".psd", ".webp"],
     "videos": [".mp4", ".mpeg", ".webm", ".avi", ".mov"],
     "audios": [".mp3", ".wav", ".asd", ".m4a", ".ogg"],
@@ -35,41 +45,28 @@ extentions = {
 
 
 def create_folders():
-
     try:
-        folder_list = {
-            pic_folder: "images",
-            vid_folder: "videos",
-            aud_folder: "audios",
-            gif_folder: "gifs",
-            doc_folder: "documents",
-            zip_folder: "zip",
-            set_folder: "setup",
-            pro_folder: "programs"
-        }
-        if all(folder == "" for folder in list(folder_list.keys())):
+        if all(folder == "" for folder in list(folder_list.values())):
             print("Debe crear al menos una carpeta")
 
-        for folder, ext in folder_list.items():
+        for name, folder in folder_list.items():
             if folder != "":
                 folder_path = os.path.join(root_path, folder)
-                os.makedirs(folder_path, exist_ok=True)
-                extentions[folder] = extentions[ext]
-                del extentions[ext]
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path, exist_ok=True)
+                    if name in extensions and name != folder:
+                        extensions[folder] = extensions[name]
+                        del extensions[name]
     except OSError:
         print("Ha aparecido un error al crear las carpetas, revise el directorio")
 
 
-create_folders()
-
-
 def sort(file):
-
-    keys = list(extentions.keys())
-    for key in keys:
-        for ext in extentions[key]:
+    for key, exts in extensions.items():
+        for ext in exts:
             if file.endswith(ext):
                 return key
+    return None
 
 
 def sorting():
@@ -78,16 +75,18 @@ def sorting():
     no_ord = 0
 
     for file in dirs:
-        name, ext = os.path.splitext(root_path + file)
+        name, ext = os.path.splitext(file)
         dist = sort(file)
         if dist:
             try:
-                os.rename(f"{root_path}/{file}", f"{root_path}/{dist}/{file}")
+                os.rename(os.path.join(root_path, file),
+                          os.path.join(root_path, dist, file))
                 count += 1
             except:
                 no_ord += 1
 
 
+create_folders()
 sorting()
 
 if delete == "Y":
