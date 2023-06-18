@@ -30,6 +30,8 @@ for name in folder_names:
 
 delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
 
+count = 0
+no_ord = 0
 del_COUNT = 0
 
 extensions = {
@@ -61,33 +63,30 @@ def create_folders():
         print("Ha aparecido un error al crear las carpetas, revise el directorio")
 
 
-def sort(file):
+def sort(file, folder_list):
     for key, exts in extensions.items():
         for ext in exts:
             if file.endswith(ext):
-                return key
+                return folder_list[key]
     return None
 
 
-def sorting():
-    global count, no_ord
-    count = 0
-    no_ord = 0
-
-    for file in dirs:
-        name, ext = os.path.splitext(file)
-        dist = sort(file)
-        if dist:
-            try:
-                os.rename(os.path.join(root_path, file),
-                          os.path.join(root_path, dist, file))
-                count += 1
-            except:
-                no_ord += 1
+def sorting(file, count, no_ord):
+    dist = sort(file, folder_list)
+    if dist:
+        try:
+            os.rename(os.path.join(root_path, file),
+                      os.path.join(root_path, dist, file))
+            count += 1
+        except:
+            no_ord += 1
+    return count, no_ord
 
 
 create_folders()
-sorting()
+
+for file in dirs:
+    count, no_ord = sorting(file, count, no_ord)
 
 if delete == "Y":
     for root, dire, files in os.walk(root_path, topdown=False):
