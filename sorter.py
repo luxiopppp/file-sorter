@@ -1,12 +1,12 @@
 import os
 import msvcrt
 
-root_path = input("Directorio a organizar: ")
+root_path = input("Root directory: ")
 dirs = os.listdir(root_path)
 
 print("""
-        Si no desea alguna carpeta, solo presione enter.
-        Si ya existe una carpeta para alguno de estos archivos, proporcione el nombre de esa carpeta.
+        If you don't want any of these folders, simply press 'Enter'.
+        If a folder already exists for any of these files, please provide the name of that folder.
     """
       )
 
@@ -18,17 +18,18 @@ folder_names = [
     "documents",
     "zip",
     "setup",
-    "programs"
+    "code"
 ]
 
 folder_list = {}
 
 for name in folder_names:
-    folder = input(f"Nombre para la carpeta de {name}: ")
+    folder = input(f"Name for the {name} folder: ")
     if folder:
         folder_list[name] = folder
 
-delete = input("Desea eliminar las carpetas vacias? (Y/N): ").upper()
+delete = input(
+    "Do you want to remove the empty folders on the root? (Y/N): ").upper()
 
 count = 0
 no_ord = 0
@@ -42,14 +43,14 @@ extensions = {
     "documents": [".pdf", ".docx", ".csv", ".xlsx", ".pptx", ".doc", ".ppt", ".xls"],
     "zip": [".zip", ".tgz", ".rar", ".tar"],
     "setup": [".msi", ".exe"],
-    "programs": [".py", ".c", ".cpp", ".php", ".C", ".CPP"]
+    "code": [".py", ".js", ".html", ".css", ".c", ".cpp", ".php", ".C", ".CPP"]
 }
 
 
 def create_folders():
     try:
         if all(folder == "" for folder in list(folder_list.values())):
-            print("Debe crear al menos una carpeta")
+            print("At least one folder is needed!")
 
         for name, folder in folder_list.items():
             if folder != "":
@@ -60,7 +61,7 @@ def create_folders():
                         extensions[folder] = extensions[name]
                         del extensions[name]
     except OSError:
-        print("Ha aparecido un error al crear las carpetas, revise el directorio")
+        print("There was an error creating the folders. Please check if there is enough space available in the directory.")
 
 
 def sort(file, folder_list):
@@ -96,9 +97,9 @@ if delete == "Y":
 
 print(
     f"""
-        Archivos organizados: {count}
-        Archivos sin organizar: {no_ord}
-        Carpetas eliminadas: {del_COUNT}
+        Organized: {count}
+        Not organized: {no_ord}
+        Removed folders: {del_COUNT}
     """
 )
 
