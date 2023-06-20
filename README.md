@@ -1,5 +1,6 @@
 # File Sorter
 <p align="left">
+  <img alt="GitHub tag (latest SemVer pre-release)" src="https://img.shields.io/github/v/tag/luxiopppp/file-sorter">
   <img alt="GitHub issues" src="https://img.shields.io/github/issues/luxiopppp/file-sorter">
 </p>
 
