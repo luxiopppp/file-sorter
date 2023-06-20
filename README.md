@@ -1,6 +1,5 @@
 # File Sorter
 <p align="left">
-  <img src="https://img.shields.io/badge/status-v1-green">
   <img alt="GitHub issues" src="https://img.shields.io/github/issues/luxiopppp/file-sorter">
 </p>
 
