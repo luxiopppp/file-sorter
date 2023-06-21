@@ -1,0 +1,13 @@
+name: File Sorter
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sort:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run-sorter
+        run: sorter.py
