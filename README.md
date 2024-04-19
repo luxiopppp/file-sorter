@@ -31,7 +31,7 @@ Root
 ```
 
 ## Pre-Requirements 🛠️
-You don't need to install any libraries; you only need to have Python installed. <br>
+You don't need to install any libraries; only Python is required. <br>
 You can download it from its official website <a href= "https://www.python.org/downloads"/>here</a>.
 
 ## Instructions 📖
